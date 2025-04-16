@@ -22,6 +22,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		//DirectXCommonインスタンスの取得
 		DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+		//ゲームシーンの更新
+		gameScene->Update();
+
 		//描画の開始
 		dxCommon->PreDraw();
 
@@ -35,6 +38,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	delete gameScene;
 	//nullptrの代入
 	gameScene = nullptr;
+
+	
 
 	//エンジンの終了処理
 	KamataEngine::Finalize();

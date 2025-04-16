@@ -14,4 +14,13 @@ public:
 	//描画
 	void Draw();
 
+	~GameScene();
+
+	//スプライト
+	KamataEngine::Sprite* sprite_ = nullptr;
+
+private:
+	//テクスチャハンドル
+	uint32_t textureHandle_ = 0;
+
 };
