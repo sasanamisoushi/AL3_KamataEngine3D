@@ -11,13 +11,27 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	//カメラの初期化
 	camera_.Initialize();
+
+	//自キャラの更新
+	player_ = new Player();
+	//自キャラの初期化
+	player_->Initilize();
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//自キャラの更新
+	player_->Update();
+}
 
-void GameScene::Draw() {}
+void GameScene::Draw() {
+	// 自キャラの描画
+	player_->Draw();
+}
 
 GameScene::~GameScene() {
 	//3Dモデルデータの解放
 	delete model_;
+
+	//自キャラの解放
+	delete player_;
 }
