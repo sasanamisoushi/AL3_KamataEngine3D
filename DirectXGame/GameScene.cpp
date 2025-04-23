@@ -15,7 +15,7 @@ void GameScene::Initialize() {
 	//自キャラの更新
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initilize();
+	player_->Initilize(model_, textureHandle_, camera_);
 }
 
 void GameScene::Update() {
