@@ -11,13 +11,34 @@ void GameScene::Initialize() {
 	worldTransform_.Initialize();
 	//カメラの初期化
 	camera_.Initialize();
+
+	//自キャラの更新
+	player_ = new Player();
+	//自キャラの初期化
+	player_->Initilize(model_, textureHandle_, &camera_);
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//自キャラの更新
+	player_->Update();
+}
 
-void GameScene::Draw() {}
+void GameScene::Draw() {
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	// 3Dモデル描画前処理
+	Model::PreDraw(dxCommon->GetCommandList());
+
+	// 自キャラの描画
+	player_->Draw();
+
+	Model::PostDraw();
+}
 
 GameScene::~GameScene() {
 	//3Dモデルデータの解放
 	delete model_;
+
+	//自キャラの解放
+	delete player_;
 }

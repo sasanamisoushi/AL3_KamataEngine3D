@@ -1,11 +1,13 @@
 #pragma once
 #include "KamataEngine.h"
 
+using namespace KamataEngine;
+
 class Player {
 public:
 
 	//初期化
-	void Initilize();
+	void Initilize(Model* model, uint32_t textureHandle, Camera* camera);
 
 	//更新
 	void Update();
@@ -15,10 +17,11 @@ public:
 
 private:
 	//ワールド変換データ
-	KamataEngine::WorldTransform worldTransform_;
+	WorldTransform worldTransform_;
 	//モデル
-	KamataEngine::Model* model_ = nullptr;
+	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
-
+	//カメラ
+	Camera* camera_ = nullptr;
 };
