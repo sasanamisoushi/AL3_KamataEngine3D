@@ -1,13 +1,14 @@
 #include "Player.h"
+#include <cassert>
 
 using namespace KamataEngine;
 
 void Player::Initilize(Model* model, uint32_t textureHandle, Camera* camera) {
 	//NULLポインタチェック
 	assert(model);
-
 	//モデル
 	model_ = model;
+	//テクスチャハンドル
 	textureHandle_ = textureHandle;
 	// ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
@@ -21,4 +22,9 @@ void Player::Update() {
 }
 
 void Player::Draw() { 
-	model_->Draw(worldTransform_, *camera_, textureHandle_); }
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+	// 3Dモデル描画前処理
+	Model::PreDraw(dxCommon->GetCommandList());
+	model_->Draw(worldTransform_, *camera_, textureHandle_); 
+	Model::PostDraw();
+}

@@ -15,7 +15,7 @@ void GameScene::Initialize() {
 	//自キャラの更新
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initilize(model_, textureHandle_, camera_);
+	player_->Initilize(model_, textureHandle_, &camera_);
 }
 
 void GameScene::Update() {
@@ -24,8 +24,15 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() {
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	// 3Dモデル描画前処理
+	Model::PreDraw(dxCommon->GetCommandList());
+
 	// 自キャラの描画
 	player_->Draw();
+
+	Model::PostDraw();
 }
 
 GameScene::~GameScene() {

@@ -12,6 +12,13 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	KamataEngine::Initialize();
 	// ゲームシーンの初期化
 	GameScene* gameScene = new GameScene();
+
+	// DirectXCommonインスタンスの取得
+	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+
+	//ゲームシーンの初期化
+	gameScene->Initialize();
+
 	// メインループ
 	while (true) {
 		// エンジンの更新
@@ -19,8 +26,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 			break;
 		}
 
-		// DirectXCommonインスタンスの取得
-		DirectXCommon* dxCommon = DirectXCommon::GetInstance();
+			gameScene->Update();
 
 		// 描画の開始
 		dxCommon->PreDraw();
