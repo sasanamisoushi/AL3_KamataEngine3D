@@ -42,6 +42,13 @@ void GameScene::Update() {
 	//ブロックの更新
 	for ( WorldTransform* worldTransformBlock:worldTransformBlocks_){ 
 		
+		Matrix4x4 affin_mat = MakeAffineMatrix(
+
+		)
+
+		worldTransformBlock->matWorld_ = ;
+		//定数バッファに転送する
+		worldTransformBlock->TransferMatrix();
 	}
 }
 
