@@ -1,6 +1,7 @@
 #pragma once
 #include "KamataEngine.h"
 #include "Player.h"
+#include <vector>
 
 using namespace KamataEngine;
 
@@ -34,4 +35,9 @@ private:
 	//自キャラ
 	Player* player_ = nullptr;
 
+	//ブロックのモデル
+	Model* blockModel_ = nullptr;
+
+	//可変個配列
+	std::vector<WorldTransform*> worldTransformBlocks_;
 };
