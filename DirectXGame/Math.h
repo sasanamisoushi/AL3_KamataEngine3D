@@ -4,6 +4,7 @@
 using namespace KamataEngine;
 
 class Math {
+public:
 
 	//平行移動
 	Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
@@ -16,4 +17,17 @@ class Math {
 
 	// Y軸回転行列
 	Matrix4x4 MakeRotateYMatrix(float radian);
+
+	//Z軸回転行列
+	Matrix4x4 MakeRotateZMatrix(float radian);
+
+	// 積
+	Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
+
+	// アフィン変換行列
+	Matrix4x4 MakeAffineMatrox(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+
+
+
+
 };
