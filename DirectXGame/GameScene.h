@@ -2,6 +2,7 @@
 #include "KamataEngine.h"
 #include "Player.h"
 #include <vector>
+#include "Math.h"
 
 using namespace KamataEngine;
 
@@ -18,6 +19,9 @@ public:
 	void Draw();
 
 	~GameScene();
+
+	//デバックカメラ有効
+	bool isDebugCameraActive_ = false;
 
 private:
 	//テクスチャハンドル
@@ -39,5 +43,13 @@ private:
 	Model* blockModel_ = nullptr;
 
 	//可変個配列
-	std::vector<WorldTransform*> worldTransformBlocks_;
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+
+	//計算
+	Math* math_=nullptr;
+
+	//デバックカメラ
+	DebugCamera* debugCamera_ = nullptr;
+
+
 };

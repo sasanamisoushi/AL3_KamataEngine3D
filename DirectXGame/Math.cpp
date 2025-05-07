@@ -1,5 +1,70 @@
 #include "Math.h"
 
-Matrix4x4 Math::MakeTranslateMatrix(const Vector3& translate) { return Matrix4x4(); }
+//平行移動
+Matrix4x4 Math::MakeTranslateMatrix(const Vector3& translate) { 
+	Matrix4x4 result = {
+		1, 0, 0, 0,
+		0, 1, 0, 0, 
+		0, 0, 1, 0, 
+		translate.x, translate.y, translate.z, 1
+	};
+	return result;
+}
 
-Matrix4x4 Math::MkeScaleMatrix(const Vector3& scale) { return Matrix4x4(); }
+//拡大縮小
+Matrix4x4 Math::MkeScaleMatrix(const Vector3& scale) { 
+	Matrix4x4 result = {
+		scale.x, 0, 0, 0,
+		0, scale.y, 0, 0,
+		0, 0, scale.z, 0, 
+		0, 0, 0, 1};
+	return result;
+}
+
+
+//X軸回転行列
+Matrix4x4 Math::MakeRoteXMatrix(float radian) { 
+	Matrix4x4 result = {
+	    1, 0, 0, 0, 0, std::cosf(radian), std::sinf(radian), 0, 0, -std::sinf(radian), std::cosf(radian), 0, 0, 0, 0, 1,
+	};
+	return result;
+	
+}
+
+//Y軸回転行列
+Matrix4x4 Math::MakeRotateYMatrix(float radian) { 
+	Matrix4x4 result = {
+	    std::cosf(radian), 0, -std::sinf(radian), 0, 0, 1, 0, 0, std::sinf(radian), 0, std::cosf(radian), 0, 0, 0, 0, 1,
+	};
+	return result;
+}
+
+//Z軸回転行列
+Matrix4x4 Math::MakeRotateZMatrix(float radian) { 
+	Matrix4x4 result = {
+	    std::cosf(radian), std::sinf(radian), 0, 0, -std::sinf(radian), std::cosf(radian), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
+	};
+	return result;
+}
+
+//積
+Matrix4x4 Math::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) { 
+	Matrix4x4 result = {};
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 4; ++j) {
+			for (int k = 0; k < 4; ++k) {
+				result.m[i][j] += m1.m[i][k] * m2.m[k][j];
+			}
+		}
+	}
+	return result;
+}
+
+//アフィン変換
+Matrix4x4 Math::MakeAffineMatrox(const Vector3& scale, const Vector3& rotate, const Vector3& translate) { 
+	Matrix4x4 rot = Multiply(Multiply(MakeRoteXMatrix(rotate.x), MakeRotateYMatrix(rotate.y)), MakeRotateZMatrix(rotate.z));
+	Matrix4x4 result = Multiply(Multiply(MkeScaleMatrix(scale), rot), MakeTranslateMatrix(translate));
+
+	return result;
+}
+
