@@ -3,11 +3,11 @@
 
 using namespace KamataEngine;
 
-class Player {
+//天球
+class Skydome {
 public:
-
 	//初期化
-	void Initilize(Model* model,  Camera* camera);
+	void Initialize(Model* model, Camera* camera);
 
 	//更新
 	void Update();
@@ -16,12 +16,14 @@ public:
 	void Draw();
 
 private:
-	//ワールド変換データ
+		//ワールド変換データ
 	WorldTransform worldTransform_;
+
 	//モデル
 	Model* model_ = nullptr;
-	//テクスチャハンドル
-	//uint32_t textureHandle_ = 0u;
-	//カメラ
-	Camera* camera_ = nullptr;
+
+	// カメラ
+	Camera *camera_=nullptr ;
+
+	
 };

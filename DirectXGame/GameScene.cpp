@@ -6,10 +6,9 @@ using namespace KamataEngine;
 
 
 void GameScene::Initialize() {
-	//ファイル名を指定してテクスチャハンドルを読み込む
-	textureHandle_ = TextureManager::Load("playerk.png");
+	
 	//3Dモデルの生成(自機）
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("player", true);
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	//カメラの初期化
@@ -18,9 +17,9 @@ void GameScene::Initialize() {
 	//自キャラの更新
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initilize(model_, textureHandle_, &camera_);
+	player_->Initilize(model_,  &camera_);
 	// 3Dモデルの生成(ブロック）
-	blockModel_ = Model::Create();
+	blockModel_ = Model::CreateFromOBJ("block",true);
 
 	// 要素数
 	const uint32_t kNumBlocVirtical = 10;
@@ -54,11 +53,23 @@ void GameScene::Initialize() {
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
+	//02_03天球
+	// 3Dモデルの生成
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+
+	//天球の生成
+	skydome_ = new Skydome();
+	//天球の初期化
+	skydome_->Initialize(modelSkydome_, &camera_);
+
 }
 
 void GameScene::Update() {
 	//自キャラの更新
 	player_->Update();
+
+	// 天球の更新
+	skydome_->Update();
 
 	//ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -108,9 +119,12 @@ void GameScene::Draw() {
 	}
 
 	// 自キャラの描画
-	//player_->Draw();
+	player_->Draw();
 
 	Model::PostDraw();
+
+	//天球の描画
+	skydome_->Draw();
 }
 
 GameScene::~GameScene() {
@@ -133,4 +147,8 @@ GameScene::~GameScene() {
 
 	//デバックカメラ
 	delete debugCamera_;
+
+	//天球
+	delete modelSkydome_;
+	delete skydome_;
 }
