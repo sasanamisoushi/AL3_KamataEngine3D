@@ -1,4 +1,5 @@
-//#include "WorldTransform.h"
+#include "WorldTransform.h"
+// #include "WorldTransform.h"
 //
 //
 //
@@ -9,3 +10,5 @@
 //	//定数バッファへの書き込み
 //	worldTransform.TransferMatrix();
 //}
+
+
