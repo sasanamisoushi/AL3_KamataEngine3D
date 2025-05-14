@@ -18,9 +18,6 @@ void Player::Initilize(Model* model, Camera* camera) {
 
 void Player::Update() {
 
-	
-
-
 	//行列を定義バッファに転送
 	worldTransform_.TransferMatrix();
 }
