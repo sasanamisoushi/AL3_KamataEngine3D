@@ -12,6 +12,7 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	//カメラの初期化
+	camera_.farZ;
 	camera_.Initialize();
 
 	//自キャラの更新
@@ -77,7 +78,7 @@ void GameScene::Update() {
 			if (!worldTransformBlock) {
 				continue;
 			}
-			worldTransformBlock->matWorld_ = math_->MakeAffineMatrox(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+			worldTransformBlock->matWorld_ = math_->MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
 			// 定数バッファに転送する
 			worldTransformBlock->TransferMatrix();
 		}
