@@ -144,17 +144,18 @@ void GameScene::GenerateBlocks() {
 	uint32_t numBlockHorizontal = mapChipField_->GetNumBlockHorizontal();
 	
 	// 要素数を変更する
-	worldTransformBlocks_.resize();
+	worldTransformBlocks_.resize(numBlockVirtical);
 
 	// キューブの生成
-	for (uint32_t i = 0; i < kNumBlocVirtical; ++i) {
+	for (uint32_t i = 0; i < numBlockVirtical; ++i) {
 		// 1列の要素数を設定（横方向のブロック数）
-		worldTransformBlocks_[i].resize(kNumBlockHorizontal);
-		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+		worldTransformBlocks_[i].resize(numBlockHorizontal);
+		for (uint32_t j = 0; j < numBlockHorizontal; ++j) {
 			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kblock) {
 
-				worldTransformBlocks_[i][j] = new WorldTransform();
-				worldTransformBlocks_[i][j]->Initialize();
+				WorldTransform* worldTransform = new WorldTransform();
+				worldTransform->Initialize();
+				worldTransformBlocks_[i][j]=worldTransform;
 				worldTransformBlocks_[i][j]->translation_= mapChipField_->GetMapChipPositionByIndex(j,i);
 			}
 		}
