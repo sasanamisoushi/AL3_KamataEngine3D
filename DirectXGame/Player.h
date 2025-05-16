@@ -7,7 +7,7 @@ class Player {
 public:
 
 	//初期化
-	void Initilize(Model* model,  Camera* camera);
+	void Initilize(Model* model,  Camera* camera,const Vector3& position);
 
 	//更新
 	void Update();
@@ -24,4 +24,7 @@ private:
 	//uint32_t textureHandle_ = 0u;
 	//カメラ
 	Camera* camera_ = nullptr;
+
+	//速度
+	Vector3 velocity_ = {};
 };
