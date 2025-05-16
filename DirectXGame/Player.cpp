@@ -35,7 +35,13 @@ void Player::Update() {
 		if (Input::GetInstance()->PushKey(DIK_RIGHT)) {
 		
 			acceleration.x += kAcceleration;
+		} else if(Input::GetInstance()->PushKey(DIK_LEFT)){
+		
+			acceleration.x -= kAcceleration;
 		}
+		//加速/原則
+		velocity_ += acceleration;
+
 	}
 
 	//移動

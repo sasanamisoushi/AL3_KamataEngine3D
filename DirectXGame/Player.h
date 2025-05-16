@@ -15,6 +15,9 @@ public:
 	//描画
 	void Draw();
 
+	
+	
+
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -25,6 +28,8 @@ private:
 	//カメラ
 	Camera* camera_ = nullptr;
 
-	//速度
+	// 速度
 	Vector3 velocity_ = {};
+	
+	static inline const float kAcceleration = 5.0f;
 };
