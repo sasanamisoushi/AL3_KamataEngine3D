@@ -17,7 +17,7 @@ void GameScene::Initialize() {
 	camera_.Initialize();
 
 	//座標をマップチップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(1, 19);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(2, 2);
 
 	//自キャラの更新
 	player_ = new Player();

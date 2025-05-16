@@ -15,7 +15,8 @@ public:
 	//描画
 	void Draw();
 
-	
+	// 速度
+	Vector3 velocity_ = {};
 	
 
 private:
@@ -28,8 +29,7 @@ private:
 	//カメラ
 	Camera* camera_ = nullptr;
 
-	// 速度
-	Vector3 velocity_ = {};
+	
 	
 	static inline const float kAcceleration = 5.0f;
 };

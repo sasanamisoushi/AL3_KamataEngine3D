@@ -21,6 +21,8 @@ void Player::Initilize(Model* model, Camera* camera, const Vector3& position) {
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
 }
 
+
+
 void Player::Update() {
 
 	//行列を定義バッファに転送
@@ -40,12 +42,15 @@ void Player::Update() {
 			acceleration.x -= kAcceleration;
 		}
 		//加速/原則
-		velocity_ += acceleration;
+		velocity_.x += acceleration.x;
 
+	} else {
+		//非入力時は移動減衰をかける
+		velocity_.x *= (1.0f - kAcceleration);
 	}
 
 	//移動
-	worldTransform_.translation_ += velocity_;
+	worldTransform_.translation_.x += velocity_.x;
 
 	//行列更新
 
@@ -58,3 +63,5 @@ void Player::Draw() {
 	model_->Draw(worldTransform_, *camera_); 
 	Model::PostDraw();
 }
+
+
