@@ -61,7 +61,7 @@ Matrix4x4 Math::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 }
 
 //アフィン変換
-Matrix4x4 Math::MakeAffineMatrox(const Vector3& scale, const Vector3& rotate, const Vector3& translate) { 
+Matrix4x4 Math::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) { 
 	Matrix4x4 rot = Multiply(Multiply(MakeRoteXMatrix(rotate.x), MakeRotateYMatrix(rotate.y)), MakeRotateZMatrix(rotate.z));
 	Matrix4x4 result = Multiply(Multiply(MkeScaleMatrix(scale), rot), MakeTranslateMatrix(translate));
 

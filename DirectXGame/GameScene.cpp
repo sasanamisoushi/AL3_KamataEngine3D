@@ -1,6 +1,8 @@
 #include "GameScene.h"
 
 
+
+
 using namespace KamataEngine;
 
 
@@ -53,13 +55,17 @@ void GameScene::Update() {
 	// 天球の更新
 	skydome_->Update();
 
+
+	
+
 	//ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock) {
 				continue;
 			}
-			worldTransformBlock->matWorld_ = math_->MakeAffineMatrox(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+			//worldTransform(* worldTransformBlock);
+			worldTransformBlock->matWorld_ = math_->MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
 			// 定数バッファに転送する
 			worldTransformBlock->TransferMatrix();
 		}
