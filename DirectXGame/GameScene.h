@@ -4,6 +4,8 @@
 #include <vector>
 #include "Math.h"
 #include "Skydome.h"
+#include "MapChipField.h"
+
 
 using namespace KamataEngine;
 
@@ -23,6 +25,8 @@ public:
 
 	//デバックカメラ有効
 	bool isDebugCameraActive_ = false;
+
+	void GenerateBlocks();
 
 private:
 	//テクスチャハンドル
@@ -58,5 +62,6 @@ private:
 	//3Dモデル
 	Model* modelSkydome_ = nullptr;
 	
-
+	//マップチップワールド
+	MapChipField* mapChipField_;
 };
