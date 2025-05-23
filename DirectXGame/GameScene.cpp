@@ -16,13 +16,16 @@ void GameScene::Initialize() {
 	//カメラの初期化
 	camera_.Initialize();
 
-	//座標をマップチップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(2, 2);
+	
 
 	//自キャラの更新
 	player_ = new Player();
+
+	// 座標をマップチップ番号で指定
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(2, 18);
+
 	//自キャラの初期化
-	player_->Initilize(model_,  &camera_,playerPosition);
+	player_->Initilize(model_, &camera_, playerPosition);
 	// 3Dモデルの生成(ブロック）
 	blockModel_ = Model::CreateFromOBJ("block",true);
 

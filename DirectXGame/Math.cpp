@@ -1,6 +1,27 @@
-#include "Math.h"
+#include <cmath>
+#define _USE_MATH_DEFINES
+#include <algorithm>
 
-//平行移動
+#include "Math.h"
+#include <numbers>
+
+Vector3& operator+=(Vector3& lhv, const Vector3& rhv) { 
+	lhv.x += rhv.x; 
+	lhv.y += rhv.y;
+	lhv.z += rhv.z;
+	return lhv;
+}
+
+Vector3& operator-=(Vector3& lhv, const Vector3& rhv) {
+	lhv.x -= rhv.x;
+	lhv.y -= rhv.y;
+	lhv.z -= rhv.z;
+	return lhv;
+}
+
+
+
+// 平行移動
 Matrix4x4 Math::MakeTranslateMatrix(const Vector3& translate) { 
 	Matrix4x4 result = {
 		1, 0, 0, 0,
@@ -68,3 +89,11 @@ Matrix4x4 Math::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, co
 	return result;
 }
 
+float Math::Lerp(float a, float b, float t) { return (1.0f - t) * a + t * b; }
+
+
+//イーズインアウト
+float Math::EaseInOut(float a, float b, float t) { 
+	float easedT = -(std::cosf(std::numbers::pi_v<float> * t) - 1.0f) / 2.0f;
+	return Lerp(a, b, easedT);
+}

@@ -3,8 +3,12 @@
 
 using namespace KamataEngine;
 
+Vector3& operator+=(Vector3& lhv, const Vector3& rhv);
+Vector3& operator-=(Vector3& lhv, const Vector3& rhv);
+
 class Math {
 public:
+	
 
 	//平行移動
 	Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
@@ -27,7 +31,10 @@ public:
 	// アフィン変換行列
 	Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
+	//線形保管
+	float Lerp(float a, float b, float t);
 
-
+	// イーズインアウト
+	float EaseInOut(float a, float b, float t);
 
 };
