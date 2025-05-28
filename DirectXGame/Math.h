@@ -5,6 +5,7 @@ using namespace KamataEngine;
 
 Vector3& operator+=(Vector3& lhv, const Vector3& rhv);
 Vector3& operator-=(Vector3& lhv, const Vector3& rhv);
+Vector3& operator+(const Vector3& v1, const Vector3& v2);
 
 class Math {
 public:

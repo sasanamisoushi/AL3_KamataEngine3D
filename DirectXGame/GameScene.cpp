@@ -52,6 +52,18 @@ void GameScene::Initialize() {
 	//天球の初期化
 	skydome_->Initialize(modelSkydome_, &camera_);
 
+	//カメラコントローラの生成
+	cameraController_ = new CameraController();
+	// カメラコントローラの初期化
+	cameraController_->Initialize(&camera_);
+	//追従対象をセット
+	cameraController_->SetTarget(player_);
+	//リセット
+	cameraController_->Reset();
+	//移動範囲の指定
+	CameraController::Rect camerArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(camerArea);
+
 }
 
 void GameScene::Update() {
@@ -61,6 +73,8 @@ void GameScene::Update() {
 	// 天球の更新
 	skydome_->Update();
 
+	//カメラコントローラの更新
+	cameraController_->Update();
 
 	
 

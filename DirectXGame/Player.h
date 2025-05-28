@@ -25,6 +25,8 @@ public:
 	// 接地状態フラグ
 	bool onGround_ = true;
 
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
+
 private:
 	//ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;

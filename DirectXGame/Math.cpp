@@ -19,6 +19,11 @@ Vector3& operator-=(Vector3& lhv, const Vector3& rhv) {
 	return lhv;
 }
 
+Vector3& operator+(const Vector3& v1, const Vector3& v2) {
+	Vector3 temp(v1);
+	return temp += v2;
+}
+
 
 
 // 平行移動
@@ -97,3 +102,7 @@ float Math::EaseInOut(float a, float b, float t) {
 	float easedT = -(std::cosf(std::numbers::pi_v<float> * t) - 1.0f) / 2.0f;
 	return Lerp(a, b, easedT);
 }
+
+
+
+
