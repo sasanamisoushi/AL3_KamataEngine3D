@@ -51,8 +51,7 @@ private:
 	//可変個配列
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
-	//計算
-	Math* math_=nullptr;
+	
 
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;

@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 
 	
 
-	math_ = new Math();
+	
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -85,7 +85,7 @@ void GameScene::Update() {
 				continue;
 			}
 			//worldTransform(* worldTransformBlock);
-			worldTransformBlock->matWorld_ = math_->MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+			worldTransformBlock->matWorld_ = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
 			// 定数バッファに転送する
 			worldTransformBlock->TransferMatrix();
 		}
