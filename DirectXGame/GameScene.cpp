@@ -16,7 +16,16 @@ void GameScene::Initialize() {
 	//カメラの初期化
 	camera_.Initialize();
 
-	
+
+
+	//マップチップの生成
+	mapChipField_ = new MapChipField;
+
+	// マップチップの更新
+	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+
+	// 表示ブロックの生成
+	GenerateBlocks();
 
 	//自キャラの更新
 	player_ = new Player();
@@ -24,17 +33,13 @@ void GameScene::Initialize() {
 	// 座標をマップチップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(2, 18);
 
-	//自キャラの初期化
-	player_->Initilize(model_, &camera_, playerPosition);
 	// 3Dモデルの生成(ブロック）
-	blockModel_ = Model::CreateFromOBJ("block",true);
+	blockModel_ = Model::CreateFromOBJ("block", true);
 
-	//マップチップの更新
-	mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resources/blocks.csv");
+	player_->SetMapChipField(mapChipField_);
 
-	//表示ブロックの生成
-	GenerateBlocks();
+	// 自キャラの初期化
+	player_->Initilize(model_, &camera_, playerPosition);
 
 	
 

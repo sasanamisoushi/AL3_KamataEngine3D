@@ -4,6 +4,7 @@
 
 using namespace KamataEngine;
 
+class MapChipField;
 
 class Player {
 public:
@@ -28,6 +29,24 @@ public:
 	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
 
 	const Vector3& GetVelocity() const { return velocity_; }
+
+	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
+
+	void UpdateMovement();
+
+	// マップとの当たり判定情報
+	struct CollisionMapInfo {
+		bool top = false; //天井衝突
+		bool landing = false;//着地
+		bool worll = false;//壁接触
+		Vector3 move;//移動量
+	};
+
+	//マップ衝突判定関数
+	void collisionDetection(CollisionMapInfo& Info);
+	void collisionDetectionUp(CollisionMapInfo& Info);
+	void collisionDetectionDown(CollisionMapInfo& Info);
+
 
 private:
 	//ワールド変換データ
@@ -72,6 +91,13 @@ private:
 	static inline const float kJumpAcceleration = 3.0f;
 
 	
+	//マップチップによるフィールド
+	MapChipField* mapChipField_ = nullptr;
+
+	//キャラクターの当たり判定サイズ
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
 
 
+	
 };
