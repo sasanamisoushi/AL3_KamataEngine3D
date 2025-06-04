@@ -26,7 +26,7 @@ public:
 	// 接地状態フラグ
 	bool onGround_ = true;
 
-	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
+	const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; }
 
 	const Vector3& GetVelocity() const { return velocity_; }
 
@@ -36,17 +36,29 @@ public:
 
 	// マップとの当たり判定情報
 	struct CollisionMapInfo {
-		bool top = false; //天井衝突
-		bool landing = false;//着地
-		bool worll = false;//壁接触
-		Vector3 move;//移動量
+		bool top = false;         //天井衝突
+		bool landing = false;    //着地
+		bool worll = false;     //壁接触
+		Vector3 move;          //移動量
 	};
 
 	//マップ衝突判定関数
 	void collisionDetection(CollisionMapInfo& Info);
 	void collisionDetectionUp(CollisionMapInfo& Info);
 	void collisionDetectionDown(CollisionMapInfo& Info);
+	void collisionDetectionLeft(CollisionMapInfo& Info);
+	void collisionDetectionRight(CollisionMapInfo& Info);
 
+
+	//角
+	enum Corner {
+		kRightBottom,    //右下
+		kLeftBottom,    //左下
+		kRightTop,     //右上
+		kLeftTop,     //左上
+
+		kNumCorner
+	};
 
 private:
 	//ワールド変換データ
@@ -98,6 +110,8 @@ private:
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 
+	static inline const float kBlank = 0.4f;
 
-	
+	//指定した角の座標計算
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
 };
