@@ -160,7 +160,48 @@ void Player::collisionDetectionUp(CollisionMapInfo& Info) {
 	}
 }
 
-void Player::collisionDetectionDown(CollisionMapInfo& Info) { Info; }
+void Player::collisionDetectionDown(CollisionMapInfo& Info) { 
+
+	//下降あり
+	if (Info.move.y >= 0) {
+		return;
+	}
+
+	// 移動後の４つの角の座標
+	std::array<Vector3, kNumCorner> positionsNew;
+
+	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
+
+		positionsNew[i] = CornerPosition(worldTransform_.translation_ + Info.move, static_cast<Corner>(i));
+	}
+
+	
+
+	MapChipType mapChipType;
+
+	//真下のあたり判定を行う
+	bool hit = false;
+	//左下点の判定
+	MapChipField::IndexSet indexSet;
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftBottom]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+
+	//左下点の判定
+	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightBottom]);
+	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
+	if (mapChipType == MapChipType::kBlock) {
+		hit = true;
+	}
+
+	//ブロックにヒット?
+	if (hit) {
+		//めり込みを排除する方向に移動量を去って居する
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition();
+	}
+}
 
 void Player::collisionDetectionLeft(CollisionMapInfo& Info) { Info; }
 
