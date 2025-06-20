@@ -2,15 +2,12 @@
 #include <cstdint>
 #include<string>
 #include <vector>
-#include <map>
-#include <fstream>
-#include<sstream>
 #include "KamataEngine.h"
 #include "Math.h"
 
 enum class MapChipType {
-	kblank,  //空白
-	kblock,  //ブロック
+	kBlank,  //空白
+	kBlock,  //ブロック
 };
 
 struct MapChipData {
@@ -19,6 +16,19 @@ struct MapChipData {
 
 class MapChipField {
 public:
+
+	struct IndexSet {
+		uint32_t xIndex;
+		uint32_t yIndex;
+	};
+
+	struct Rect {
+		float left;   // 左端
+		float right;  // 右端
+		float bottom; // 下端
+		float top;    // 上端
+	};
+
 	//1ブッロクのサイズ
 	static inline const float kBlockWidth = 1.0f;
 	static inline const float kBlockHeight = 1.0f;
@@ -27,9 +37,9 @@ public:
 	
 	void LoadMapChipCsv(const std::string& filePath);
 
-	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
-
 	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	MapChipType GetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
 
 	uint32_t GetNumBlockVirtical() const { 
 		return kNumBlockVirtical;
@@ -41,19 +51,9 @@ public:
 
 	
 
-	struct IndexSet {
-		uint32_t xIndex;
-		uint32_t yIndex;
-	};
-
 	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
 
-	struct Rect {
-		float left;     //左端
-		float right;    //右端
-		float bottom;   //下端
-		float top;      //上端
-	};
+	
 
 	Rect GetRectByIndex(uint32_t xIndex,uint32_t yIndex);
 

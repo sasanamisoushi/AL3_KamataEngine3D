@@ -33,6 +33,9 @@ private:
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
+	// スプライト
+	Sprite* sprite_ = nullptr;
+
 	//3Dモデルデータ
 	Model* model_ = nullptr;
 
@@ -45,8 +48,11 @@ private:
 	//自キャラ
 	Player* player_ = nullptr;
 
+	// プレイヤーモデル
+	KamataEngine::Model* playerModel_ = nullptr;
+
 	//ブロックのモデル
-	Model* blockModel_ = nullptr;
+	KamataEngine::Model* blockModel_ = nullptr;
 
 	//可変個配列
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;

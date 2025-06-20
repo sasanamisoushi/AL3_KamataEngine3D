@@ -9,8 +9,23 @@ class MapChipField;
 class Player {
 public:
 
+	//左右
+	enum class LRDiretion {
+		kRight,
+		kLeft,
+	};
+
+	// 角
+	enum Corner {
+		kRightBottom, // 右下
+		kLeftBottom,  // 左下
+		kRightTop,    // 右上
+		kLeftTop,     // 左上
+		kNumCorner
+	};
+
 	//初期化
-	void Initilize(Model* model, Camera* camera, const Vector3& position);
+	void Initilize(Model* model, Camera* camera,  const Vector3& position);
 
 	//更新
 	void Update();
@@ -18,64 +33,31 @@ public:
 	//描画
 	void Draw();
 
-	enum class LRDiretion {
-		kRight,
-		kLeft,
-	};
-	
-	// 接地状態フラグ
-	bool onGround_ = true;
-
 	const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; }
+	
 
 	const Vector3& GetVelocity() const { return velocity_; }
 
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
-	void UpdateMovement();
-
-	// マップとの当たり判定情報
-	struct CollisionMapInfo {
-		bool top = false;         //天井衝突
-		bool landing = false;    //着地
-		bool worll = false;     //壁接触
-		Vector3 move;          //移動量
-	};
-
-	//マップ衝突判定関数
-	void collisionDetection(CollisionMapInfo& Info);
-	void collisionDetectionUp(CollisionMapInfo& Info);
-	void collisionDetectionDown(CollisionMapInfo& Info);
-	void collisionDetectionLeft(CollisionMapInfo& Info);
-	void collisionDetectionRight(CollisionMapInfo& Info);
-
-
-	//角
-	enum Corner {
-		kRightBottom,    //右下
-		kLeftBottom,    //左下
-		kRightTop,     //右上
-		kLeftTop,     //左上
-
-		kNumCorner
-	};
+	
 
 private:
 	//ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
-	//モデル
-	KamataEngine::Model* model_ = nullptr;
-	//テクスチャハンドル
-	//uint32_t textureHandle_ = 0u;
-	//カメラ
-	KamataEngine::Camera* camera_ = nullptr;
-
 	
+	//モデル
+	Model* model_ = nullptr;
+	//テクスチャハンドル
+	uint32_t textureHandle_ = 0u;
+	
+	//カメラ
+	Camera* camera_ = nullptr;
 
 	// 速度
 	Vector3 velocity_ = {};
 	
-	static inline const float kAcceleration = 0.01f;
+	static inline const float kAcceleration = 0.1f;
 	static inline const float kAttenuation = 0.05f;
 	static inline const float kLimitRunSpeed = 0.3f;
 	
@@ -91,16 +73,19 @@ private:
 	//旋回時間<秒>
 	static inline const float kTimeTurn = 0.4f;
 
-	
+	// 接地状態フラグ
+	bool onGround_ = true;
+
+	// ジャンプ初速(上方向)
+	static inline const float kJumpAcceleration = 20.0f;
 
 	//重力加速度(下方向)
-	static inline const float kGravityAcceleration = 0.78f;
+	static inline const float kGravityAcceleration = 0.98f;
 
 	//最大落下速度(下方向)
-	static inline const float kLimitFallSpeed = 0.2f;
+	static inline const float kLimitFallSpeed = 0.5f;
 
-	//ジャンプ初速(上方向)
-	static inline const float kJumpAcceleration = 3.0f;
+	
 
 	
 	//マップチップによるフィールド
@@ -110,8 +95,27 @@ private:
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 
-	static inline const float kBlank = 0.4f;
+	static inline const float kBlank = 0.04f;
 
+	void UpdateMovement();
+
+
+	// マップとの当たり判定情報
+	struct CollisionMapInfo {
+		bool top = false;     // 天井衝突
+		bool landing = false; // 着地
+		bool hitwall = false;   // 壁接触
+		Vector3 move;         // 移動量
+	};
+
+	// マップ衝突判定関数
+	void collisionDetection(CollisionMapInfo& Info);
+	void collisionDetectionUp(CollisionMapInfo& Info);
+	void collisionDetectionDown(CollisionMapInfo& Info);
+	void collisionDetectionLeft(CollisionMapInfo& Info);
+	void collisionDetectionRight(CollisionMapInfo& Info);
+
+	
 	//指定した角の座標計算
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 };

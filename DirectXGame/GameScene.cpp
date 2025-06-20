@@ -1,16 +1,16 @@
 #include "GameScene.h"
-
-
-
-
 using namespace KamataEngine;
 
 
 
 void GameScene::Initialize() {
 	
-	//3Dモデルの生成(自機）
-	model_ = Model::CreateFromOBJ("player", true);
+	// ファイル名を指定してテクスチャを読み込む
+	textureHandle_ = TextureManager::Load("sample.png");
+	// スプライト生成
+	sprite_ = Sprite::Create(textureHandle_, {100, 50});
+	// 3Dモデル生成
+	model_ = Model::Create();
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 	//カメラの初期化
@@ -30,6 +30,9 @@ void GameScene::Initialize() {
 	//自キャラの更新
 	player_ = new Player();
 
+	// プレイヤーモデル
+	playerModel_ = Model::CreateFromOBJ("player");
+
 	// 座標をマップチップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(2, 18);
 
@@ -39,7 +42,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	// 自キャラの初期化
-	player_->Initilize(model_, &camera_, playerPosition);
+	player_->Initilize(playerModel_, &camera_,  playerPosition);
 
 	
 
@@ -182,7 +185,7 @@ void GameScene::GenerateBlocks() {
 		// 1列の要素数を設定（横方向のブロック数）
 		worldTransformBlocks_[i].resize(numBlockHorizontal);
 		for (uint32_t j = 0; j < numBlockHorizontal; ++j) {
-			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kblock) {
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kBlock) {
 
 				WorldTransform* worldTransform = new WorldTransform();
 				worldTransform->Initialize();
