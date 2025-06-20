@@ -87,7 +87,7 @@ void Player::UpdateMovement() {
 		// ジャンプ入力
 		if (Input::GetInstance()->PushKey(DIK_UP)) {
 			// ジャンプ初速
-			velocity_ += Vector3(0, kJumpAcceleration / 60.0f, 0);
+			velocity_ += Vector3(0, kJumpAcceleration , 0);
 		}
 
 		// 空中
@@ -202,6 +202,7 @@ void Player::Update() {
 
 	// 天井接触による落下開始(02_07 スライド38枚目)
 	if (collisionMapInfo.top) {
+		DebugText::GetInstance()->ConsolePrintf("hit ceiling\n");
 		velocity_.y = 0;
 	}
 
