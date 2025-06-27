@@ -3,6 +3,8 @@
 
 using namespace KamataEngine;
 
+class Player;
+
 class Enemy {
 public:
 	//初期化
@@ -19,6 +21,15 @@ public:
 
 	//経過時間
 	float walkTimer_ = 0.0f;
+
+	// AABBを取得
+	AABB GetAABB();
+
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	//衝突応答
+	void OnCollision(const Player* player);
 
 private:
 	// ワールド変換データ
@@ -44,4 +55,8 @@ private:
 
 	//アニメーションの周期となる時間[秒]
 	static inline const float kWalkMotionTime = 1.0f;
+
+	//当たり判定サイズ
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
 };

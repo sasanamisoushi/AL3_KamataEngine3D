@@ -30,6 +30,9 @@ public:
 
 	void GenerateBlocks();
 
+	// 全ての当たり判定を行う
+	void CheckAllCollisions();
+
 private:
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
@@ -80,4 +83,6 @@ private:
 
 	// 敵モデル
 	KamataEngine::Model* enemyModel_ = nullptr;
+
+	
 };

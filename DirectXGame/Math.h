@@ -40,3 +40,12 @@ float EaseInOut(float a, float b, float t);
 
 // 02_06のスライド24枚目のLerp関数
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
+
+//AABB関数
+struct AABB {
+	Vector3 min;
+	Vector3 max;
+};
+
+
+bool IsCollision(const AABB& aabb1, const AABB& aabb2);

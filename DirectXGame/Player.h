@@ -6,6 +6,8 @@ using namespace KamataEngine;
 
 class MapChipField;
 
+class Enemy;
+
 class Player {
 public:
 
@@ -40,7 +42,14 @@ public:
 
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }
 
-	
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	// AABBを取得
+	AABB GetAABB();
+
+	//衝突応答
+	void OnCollision(const Enemy* enemy);
 
 private:
 	//ワールド変換データ
@@ -135,6 +144,8 @@ private:
 
 	//着地時の減速減衰率
 	static inline const float kAttenuationWall = 0.2f;
+
+	
 
 	
 

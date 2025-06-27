@@ -5,8 +5,8 @@
 #include "Math.h"
 #include <numbers>
 
-Vector3& operator+=(Vector3& lhv, const Vector3& rhv) { 
-	lhv.x += rhv.x; 
+Vector3& operator+=(Vector3& lhv, const Vector3& rhv) {
+	lhv.x += rhv.x;
 	lhv.y += rhv.y;
 	lhv.z += rhv.z;
 	return lhv;
@@ -44,54 +44,43 @@ const Vector3 operator*(const Vector3& v1, const float f) {
 }
 
 // 平行移動
-Matrix4x4 MakeTranslateMatrix(const Vector3& translate) { 
-	Matrix4x4 result = {
-		1, 0, 0, 0,
-		0, 1, 0, 0, 
-		0, 0, 1, 0, 
-		translate.x, translate.y, translate.z, 1
-	};
+Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
+	Matrix4x4 result = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, translate.x, translate.y, translate.z, 1};
 	return result;
 }
 
-//拡大縮小
-Matrix4x4 MkeScaleMatrix(const Vector3& scale) { 
-	Matrix4x4 result = {
-		scale.x, 0, 0, 0,
-		0, scale.y, 0, 0,
-		0, 0, scale.z, 0, 
-		0, 0, 0, 1};
+// 拡大縮小
+Matrix4x4 MkeScaleMatrix(const Vector3& scale) {
+	Matrix4x4 result = {scale.x, 0, 0, 0, 0, scale.y, 0, 0, 0, 0, scale.z, 0, 0, 0, 0, 1};
 	return result;
 }
 
-
-//X軸回転行列
-Matrix4x4 MakeRoteXMatrix(float radian) { 
+// X軸回転行列
+Matrix4x4 MakeRoteXMatrix(float radian) {
 	Matrix4x4 result = {
 	    1, 0, 0, 0, 0, std::cosf(radian), std::sinf(radian), 0, 0, -std::sinf(radian), std::cosf(radian), 0, 0, 0, 0, 1,
 	};
 	return result;
-	
 }
 
-//Y軸回転行列
-Matrix4x4 MakeRotateYMatrix(float radian) { 
+// Y軸回転行列
+Matrix4x4 MakeRotateYMatrix(float radian) {
 	Matrix4x4 result = {
 	    std::cosf(radian), 0, -std::sinf(radian), 0, 0, 1, 0, 0, std::sinf(radian), 0, std::cosf(radian), 0, 0, 0, 0, 1,
 	};
 	return result;
 }
 
-//Z軸回転行列
-Matrix4x4 MakeRotateZMatrix(float radian) { 
+// Z軸回転行列
+Matrix4x4 MakeRotateZMatrix(float radian) {
 	Matrix4x4 result = {
 	    std::cosf(radian), std::sinf(radian), 0, 0, -std::sinf(radian), std::cosf(radian), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1,
 	};
 	return result;
 }
 
-//積
-Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) { 
+// 積
+Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 result = {};
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
@@ -103,8 +92,8 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return result;
 }
 
-//アフィン変換
-Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) { 
+// アフィン変換
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 	Matrix4x4 rot = Multiply(Multiply(MakeRoteXMatrix(rotate.x), MakeRotateYMatrix(rotate.y)), MakeRotateZMatrix(rotate.z));
 	Matrix4x4 result = Multiply(Multiply(MkeScaleMatrix(scale), rot), MakeTranslateMatrix(translate));
 
@@ -113,18 +102,16 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 
 float Lerp(float a, float b, float t) { return (1.0f - t) * a + t * b; }
 
-
-//イーズインアウト
-float EaseInOut(float a, float b, float t) { 
+// イーズインアウト
+float EaseInOut(float a, float b, float t) {
 	float easedT = -(std::cosf(std::numbers::pi_v<float> * t) - 1.0f) / 2.0f;
 	return Lerp(a, b, easedT);
 }
 
-Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
+Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) { return Vector3(Lerp(v1.x, v2.x, t), Lerp(v1.y, v2.y, t), Lerp(v1.z, v2.z, t)); }
 
-	return Vector3(Lerp(v1.x, v2.x, t), Lerp(v1.y, v2.y, t), Lerp(v1.z, v2.z, t)); 
+bool IsCollision(const AABB& aabb1, const AABB& aabb2) {
+	return (aabb1.min.x <= aabb2.max.x && aabb1.max.x >= aabb2.min.x) && // x軸
+	       (aabb1.min.y <= aabb2.max.y && aabb1.max.y >= aabb2.min.y) && // y軸
+	       (aabb1.min.z <= aabb2.max.z && aabb1.max.z >= aabb2.min.z);   // z軸
 }
-
-
-
-

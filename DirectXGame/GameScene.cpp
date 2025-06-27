@@ -133,6 +133,9 @@ void GameScene::Update() {
 		// ビュープロジェクション行列の更新と転送
 		camera_.UpdateMatrix();
 	}
+
+	//全ての当たり判定を行う
+	CheckAllCollisions();
 }
 
 void GameScene::Draw() {
@@ -221,4 +224,32 @@ void GameScene::GenerateBlocks() {
 			}
 		}
 	}
+}
+
+void GameScene::CheckAllCollisions() {
+
+	//判定対象1と2の座標
+	AABB aabb1, aabb2;
+
+#pragma region 自キャラと敵キャラのあたり判定
+
+	//自キャラの座標
+	aabb1 = player_->GetAABB();
+
+	//自キャラと敵弾全てのあたり判定
+	for (Enemy* enemy : enemies_) {
+		//敵弾の座標
+		aabb2 = enemy->GetAABB();
+
+		//AABB同士の交差判定
+		if (IsCollision(aabb1, aabb2)) {
+			//自キャラの衝突時間数を呼び出す
+			player_->OnCollision(enemy);
+			//敵の衝突時間数を呼び出す
+			enemy->OnCollision(player_);
+		}
+
+	}
+#pragma endregion
+
 }
