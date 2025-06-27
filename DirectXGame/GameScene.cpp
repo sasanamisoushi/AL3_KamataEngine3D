@@ -45,8 +45,15 @@ void GameScene::Initialize() {
 	player_->Initilize(playerModel_, &camera_,  playerPosition);
 
 	
+	//敵の更新
+	enemy_ = new Enemy;
 
-	
+	//敵のモデル
+	enemyModel_ = Model::CreateFromOBJ("enemy");
+
+	//敵位置決めて初期化
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(14, 18);
+	enemy_->Initialize(enemyModel_, &camera_, enemyPosition);
 
 	//デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -84,6 +91,8 @@ void GameScene::Update() {
 	//カメラコントローラの更新
 	cameraController_->Update();
 
+	//敵キャラの更新
+	enemy_->Update();
 	
 
 	//ブロックの更新
@@ -137,10 +146,14 @@ void GameScene::Draw() {
 	// 自キャラの描画
 	player_->Draw();
 
-	Model::PostDraw();
+	// 敵の描画
+	enemy_->Draw();
 
-	//天球の描画
+	// 天球の描画
 	skydome_->Draw();
+
+	Model::PostDraw();
+	
 }
 
 GameScene::~GameScene() {
@@ -170,6 +183,9 @@ GameScene::~GameScene() {
 
 	//マップチップの解放
 	delete mapChipField_;
+
+	//敵キャラの解放
+	delete enemy_;
 }
 
 void GameScene::GenerateBlocks() {
