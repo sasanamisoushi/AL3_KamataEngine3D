@@ -77,13 +77,13 @@ private:
 	bool onGround_ = true;
 
 	// ジャンプ初速(上方向)
-	static inline const float kJumpAcceleration = 0.9f;
+	static inline const float kJumpAcceleration = 1.0f;
 
 	//重力加速度(下方向)
 	static inline const float kGravityAcceleration = 9.8f;
 
 	//最大落下速度(下方向)
-	static inline const float kLimitFallSpeed = 0.5f;
+	static inline const float kLimitFallSpeed = 0.3f;
 
 	
 
@@ -115,7 +115,24 @@ private:
 	void collisionDetectionLeft(CollisionMapInfo& Info);
 	void collisionDetectionRight(CollisionMapInfo& Info);
 
+
+	
 	
 	//指定した角の座標計算
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
+
+	// 接地状態の切り替え処理
+	void UpdateOnGround(const CollisionMapInfo& info);
+
+	// 壁に接触している場合
+	void UpdateOnWall(const CollisionMapInfo& info);
+
+	//着地時の速度減衰率
+	static inline const float kAttenuationLanding = 0.0f;
+
+	//微小な数値
+	static inline const float kGroundSearchHeight = 0.06f;
+
+	//着地時の減速減衰率
+	static inline const float kAttenuationWall = 0.2f;
 };
