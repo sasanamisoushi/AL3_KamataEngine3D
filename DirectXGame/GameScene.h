@@ -76,7 +76,7 @@ private:
 	CameraController* cameraController_=nullptr;
 
 	//敵キャラ
-	std::list<Enemy*> enemies_;
+	Enemy* enemy_ = nullptr;
 
 	// 敵モデル
 	KamataEngine::Model* enemyModel_ = nullptr;
