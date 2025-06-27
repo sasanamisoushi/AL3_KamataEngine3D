@@ -44,9 +44,6 @@ void GameScene::Initialize() {
 	// 自キャラの初期化
 	player_->Initilize(playerModel_, &camera_,  playerPosition);
 
-	
-	//敵の更新
-	enemy_ = new Enemy;
 
 	//敵のモデル
 	enemyModel_ = Model::CreateFromOBJ("enemy");
