@@ -1,8 +1,8 @@
 #include "Enemy.h"
 #include <numbers>
+#include <cassert>
 #include "WorldtransfomUpdate.h"
 #include "Math.h"
-#include "Player.h"
 
 using namespace KamataEngine;
 
@@ -52,6 +52,8 @@ void Enemy::Draw() {
 	model_->Draw(worldTransform_, *camera_); 
 	Model::PostDraw();
 }
+
+
 
 AABB Enemy::GetAABB() {
 	Vector3 worldPos = GetWorldPosition();
