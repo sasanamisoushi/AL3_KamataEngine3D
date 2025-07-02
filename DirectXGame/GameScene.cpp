@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 
 	// 自キャラの初期化
 	player_->Initilize(playerModel_, &camera_,  playerPosition);
-
+	
 	// 敵のモデル
 	enemyModel_ = Model::CreateFromOBJ("enemy");
 
@@ -55,8 +55,11 @@ void GameScene::Initialize() {
 		enemies_.push_back(newEnemy);
 	}
 	
+	deathParticlesModel_ = Model::CreateFromOBJ("deathParticle");
 
-	
+	//仮の生成処理
+	deathParticles_ = new DeathPerticles;
+	deathParticles_->Initialize(deathParticlesModel_, &camera_, playerPosition);
 
 	
 
@@ -101,6 +104,9 @@ void GameScene::Update() {
 		enemy->Update();
 	}
 	
+	if (deathParticles_) {
+		deathParticles_->Update();
+	}
 
 	//ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -161,10 +167,21 @@ void GameScene::Draw() {
 		enemy->Draw();
 	}
 
+	// デスパーティクルの描画
+	if (deathParticles_) {
+		deathParticles_->Draw();
+	}
+
 	// 天球の描画
 	skydome_->Draw();
 
 	Model::PostDraw();
+
+		// スプライト描画前処理
+	Sprite::PreDraw(dxCommon->GetCommandList());
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
 	
 }
 
@@ -200,6 +217,9 @@ GameScene::~GameScene() {
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
 	}
+
+	//デスパーティクルの解放
+	delete deathParticles_;
 }
 
 void GameScene::GenerateBlocks() {

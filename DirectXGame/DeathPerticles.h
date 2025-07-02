@@ -1,0 +1,39 @@
+#pragma once
+#include "KamataEngine.h"
+#include "Math.h"
+
+#include <array>
+#include <numbers>
+
+class DeathPerticles {
+public:
+
+	void Initialize(Model* model, Camera* camera, const Vector3& position);
+
+	void Update();
+
+	void Draw();
+
+private:
+	
+	//02_11スライド10ページパーティクルの個数
+	static inline const uint32_t kNumParticles = 8;
+
+	std::array<KamataEngine::WorldTransform, kNumParticles> worldTransforms_;
+
+	//モデル
+	Model* model_ = nullptr;
+
+	//カメラ
+	Camera* camera_ = nullptr;
+
+	//存続時間<秒>
+	static inline const float kDuration = 0.5f;
+
+	//移動の速さ
+	static inline const float kSpeed = 0.5f;
+
+	//分割した1個分の角度
+	static inline const float kAngleUnit = 2.0f * std::numbers::pi_v<float> / kNumParticles;
+
+};

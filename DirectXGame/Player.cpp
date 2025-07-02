@@ -437,9 +437,6 @@ AABB Player::GetAABB() {
 
 void Player::OnCollision(const Enemy* enemy) { 
 	(void)enemy;
-	//ジャンプ開始
-	velocity_ += Vector3(0, kJumpAcceleration , 0);
-
 }
 
 void Player::Update() {

@@ -7,6 +7,7 @@
 #include "MapChipField.h"
 #include "CameraController.h"
 #include "Enemy.h"
+#include "DeathPerticles.h"
 
 
 using namespace KamataEngine;
@@ -84,5 +85,8 @@ private:
 	// 敵モデル
 	KamataEngine::Model* enemyModel_ = nullptr;
 
-	
+	//02_11の15ページ　デスパーティクル
+	DeathPerticles* deathParticles_ = nullptr;
+
+	KamataEngine::Model* deathParticlesModel_ = nullptr;
 };
