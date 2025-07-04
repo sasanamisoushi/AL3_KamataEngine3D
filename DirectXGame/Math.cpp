@@ -130,3 +130,15 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 
 	return {x, y, z};
 }
+
+void WorldTransformUpdate(WorldTransform& worldTransform) { 
+	Matrix4x4 affin_mat = MakeAffineMatrix(
+		worldTransform.scale_, 
+		worldTransform.rotation_, 
+		worldTransform.translation_
+	);
+	worldTransform.matWorld_ = affin_mat;
+
+	// 定数バッファに転送する
+	worldTransform.TransferMatrix();
+}

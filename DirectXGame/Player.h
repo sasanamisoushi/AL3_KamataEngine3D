@@ -51,6 +51,9 @@ public:
 	//衝突応答
 	void OnCollision(const Enemy* enemy);
 
+	// デスフラグのgetter
+	bool isDead() const { return isDead_; }
+
 private:
 	//ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
@@ -145,8 +148,10 @@ private:
 	//着地時の減速減衰率
 	static inline const float kAttenuationWall = 0.2f;
 
-	
+	//デスフラグ
+	bool isDead_ = false;
 
+	
 	
 
 };

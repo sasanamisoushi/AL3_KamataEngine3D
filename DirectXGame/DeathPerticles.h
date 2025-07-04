@@ -15,6 +15,9 @@ public:
 
 	void Draw();
 
+	bool IsFinished() { return isFinished_; }
+
+
 private:
 	
 	//02_11スライド10ページパーティクルの個数
@@ -39,7 +42,7 @@ private:
 
 
 	//終了グラフ
-	bool isFinnished_ = false;
+	bool isFinished_ = false;
 
 	//経過時間カウント
 	float counter_ = 0.0f;

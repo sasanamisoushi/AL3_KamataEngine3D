@@ -12,6 +12,12 @@
 
 using namespace KamataEngine;
 
+//ゲームのフェーズ
+enum class Phase {
+	kPlay,   //ゲームプレイ
+	kDeath,  //デス演出
+};
+
 // ゲームシーン
 class GameScene {
 public:
@@ -33,6 +39,12 @@ public:
 
 	// 全ての当たり判定を行う
 	void CheckAllCollisions();
+
+	//フェーズの切り替え
+	void ChangePhase();
+
+	//デスフラグのgetter
+	bool IsFinished() const { return finished_; }
 
 private:
 	//テクスチャハンドル
@@ -89,4 +101,10 @@ private:
 	DeathPerticles* deathParticles_ = nullptr;
 
 	KamataEngine::Model* deathParticlesModel_ = nullptr;
+
+	//ゲームの現在フェーズ
+	Phase phase_;
+
+	//終了フラグ
+	bool finished_ = false;
 };

@@ -23,7 +23,7 @@ void DeathPerticles::Initialize(Model* model, Camera* camera, const Vector3& pos
 void DeathPerticles::Update() {
 
 	//終了なら何もしない
-	if (isFinnished_) {
+	if (isFinished_) {
 		return;
 	}
 
@@ -34,7 +34,7 @@ void DeathPerticles::Update() {
 	if (counter_ >= kDuration) {
 		counter_ = kDuration;
 		//終了扱いする
-		isFinnished_ = true;
+		isFinished_ = true;
 	}
 
 	
@@ -66,7 +66,7 @@ void DeathPerticles::Update() {
 
 void DeathPerticles::Draw() {
 	//終了なら何もしない
-	if (isFinnished_) {
+	if (isFinished_) {
 		return;
 	}
 
