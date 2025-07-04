@@ -5,6 +5,7 @@
 TitleScene::~TitleScene() {
 	delete modelPlayer_;
 	delete modelTitle_;
+	delete fade_;
 }
 
 void TitleScene::Initialize() {
@@ -31,6 +32,10 @@ void TitleScene::Initialize() {
 	worldTransformPlayer_.translation_.x = -2.0f;
 
 	worldTransformPlayer_.translation_.y = -10.0f;
+
+	fade_ = new Fade();
+	fade_->Initialize();
+
 }
 
 void TitleScene::Update() { 
@@ -51,6 +56,8 @@ void TitleScene::Update() {
 
 	// アフィン変換～DirectXに転送（プレイヤー座標）
 	WorldTransformUpdate(worldTransformPlayer_);
+
+	fade_->Update();
 }
 
 void TitleScene::Draw() {
@@ -59,5 +66,6 @@ void TitleScene::Draw() {
 	Model::PreDraw(dxCommon->GetCommandList());
 	modelTitle_->Draw(worldTransformTitle_, camera_);
 	modelPlayer_->Draw(worldTransformPlayer_, camera_);
+	fade_->Draw();
 	Model::PostDraw();
 }
