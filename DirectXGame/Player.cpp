@@ -441,8 +441,7 @@ void Player::OnCollision(const Enemy* enemy) {
 	isDead_ = true;
 }
 
-void Player::Update() {
-
+void Player::BehaviorRootUpdate() {
 	UpdateMovement();
 
 	// 衝突情報を初期化
@@ -455,10 +454,9 @@ void Player::Update() {
 	// マップ衝突チェック
 	collisionDetection(collisionMapInfo);
 
-	// 移動
-	// worldTransform_.translation_ += velocity_;
+	
 
-		// 移動(02_07 スライド36枚目)
+	// 移動(02_07 スライド36枚目)
 	worldTransform_.translation_ += collisionMapInfo.move;
 
 	// 天井接触による落下開始(02_07 スライド38枚目)
@@ -469,41 +467,10 @@ void Player::Update() {
 	// 接地判定
 	UpdateOnGround(collisionMapInfo);
 
-	//壁接触判定
+	// 壁接触判定
 	UpdateOnWall(collisionMapInfo);
 
-	//// 着地フラグ
-	//bool landing = false;
-
-	//// 地面とのあたり判定
-	//// 下降中
-	//if (velocity_.y < 0) {
-	//	// Y座標が地面以下になったら着地
-	//	if (worldTransform_.translation_.y <= 1.0f) {
-	//		landing = true;
-	//	}
-	//}
-
-	//// 着地判定
-	//if (onGround_) {
-	//	// ジャンプ開始
-	//	if (velocity_.y > 0.0f) {
-	//		// 空気状態に移行
-	//		onGround_ = false;
-	//	}
-	//} else {
-	//	// 着地
-	//	if (landing) {
-	//		// めり込み排斥
-	//		worldTransform_.translation_.y = 1.0f;
-	//		// 摩擦で横方向速度が減衰する
-	//		velocity_.x *= (1.0f - kAttenuation);
-	//		// 下方向速度をリセット
-	//		velocity_.y = 0.0f;
-	//		// 接地状態に移行
-	//		onGround_ = true;
-	//	}
-	//}
+	
 
 	// 旋回制御
 	if (turnTimer_ > 0.0f) {
@@ -523,6 +490,10 @@ void Player::Update() {
 
 	// 行列更新
 	worldTransformUpdate(worldTransform_);
+}
+
+void Player::Update() { 
+	BehaviorRootUpdate();
 }
 
 void Player::Draw() {

@@ -54,6 +54,9 @@ public:
 	// デスフラグのgetter
 	bool isDead() const { return isDead_; }
 
+	//通常行動更新
+	void BehaviorRootUpdate();
+
 private:
 	//ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
