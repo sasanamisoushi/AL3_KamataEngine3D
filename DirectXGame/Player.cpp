@@ -492,8 +492,49 @@ void Player::BehaviorRootUpdate() {
 	worldTransformUpdate(worldTransform_);
 }
 
+void Player::BehaviorAttackUpdate() {
+
+}
+
+void Player::BehaviorRootInitialize() {}
+
+void Player::BehaviorAttackInitialize() {}
+
 void Player::Update() { 
-	BehaviorRootUpdate();
+
+	if (behaviorRequest_ != Behavior::kUnknown) {
+		//振る舞いを変更する
+		behavior_ = behaviorRequest_;
+		//各振る舞いごとの初期化を実行
+		switch (behavior_) { 
+		case Behavior::kRoot:
+		default:
+			BehaviorRootInitialize();
+			break;
+		case Behavior::kAttack:
+			BehaviorAttackInitialize();
+			break;
+		}
+		//振る舞いリクエストをリセット
+		behaviorRequest_ = Behavior::kUnknown;
+	}
+
+
+	switch (behavior_) {
+	case Player::Behavior::kRoot:
+	default:
+		BehaviorRootUpdate();
+		break;
+	case Player::Behavior::kAttack:
+		BehaviorAttackUpdate();
+		break;
+	}
+
+		WorldTransformUpdate(worldTransform_);
+	//WorldTransformUpdate(worldTransformAttack_);
+
+	//BehaviorRootUpdate();
+	BehaviorAttackUpdate();
 }
 
 void Player::Draw() {

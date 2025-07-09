@@ -26,6 +26,13 @@ public:
 		kNumCorner
 	};
 
+	//振るまい
+	enum class Behavior {
+		kUnknown = -1,
+		kRoot,   //通常状態
+		kAttack, //攻撃中
+	};
+
 	//初期化
 	void Initilize(Model* model, Camera* camera,  const Vector3& position);
 
@@ -56,6 +63,21 @@ public:
 
 	//通常行動更新
 	void BehaviorRootUpdate();
+
+	//攻撃行動更新
+	void BehaviorAttackUpdate();
+
+	//振るまい
+	Behavior behavior_ = Behavior::kRoot;
+
+	//次の振る舞いのリクエスト
+	Behavior behaviorRequest_ = Behavior::kUnknown;
+
+	//通常行動初期化
+	void BehaviorRootInitialize();
+
+	//攻撃行動初期化
+	void BehaviorAttackInitialize();
 
 private:
 	//ワールド変換データ
