@@ -15,6 +15,9 @@ public:
 		FedeOut,   //フェードアウト中
 	};
 
+	// フェード開始
+	void Start(Status status, float duration);
+
 private:
 	KamataEngine::Sprite* sprite_ = nullptr;
 
@@ -27,6 +30,5 @@ private:
 	//経過時間カウンター
 	float counter_ = 0.0f;
 
-	//フェード開始
-	void Start(Status status, float duration);
+	
 };
