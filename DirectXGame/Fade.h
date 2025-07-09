@@ -18,6 +18,12 @@ public:
 	// フェード開始
 	void Start(Status status, float duration);
 
+	//フェード停止
+	void Stop();
+
+	//フェード終了判定
+	bool IsFinished() const;
+
 private:
 	KamataEngine::Sprite* sprite_ = nullptr;
 

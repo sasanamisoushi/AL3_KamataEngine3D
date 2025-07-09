@@ -7,6 +7,13 @@ using namespace KamataEngine;
 class TitleScene {
 public:
 
+	//シーンのフェーズ
+	enum class Phase {
+		kFadeIn,  //フェードイン
+		kMain,     //メイン部
+		kFadeOut,  //フェードアウト
+	};
+
 	~TitleScene();
 
 	void Initialize();
@@ -17,6 +24,9 @@ public:
 
 	//デスフラグのgetter
 	bool IsFinished() const { return finished_; }
+
+	//現在のフェーズ
+	Phase phase_ = Phase::kFadeIn;
 
 private:
 

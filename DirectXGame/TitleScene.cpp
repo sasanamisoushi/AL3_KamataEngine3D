@@ -40,9 +40,30 @@ void TitleScene::Initialize() {
 }
 
 void TitleScene::Update() { 
-	if (Input::GetInstance()->PushKey(DIK_SPACE)) {
-		finished_ = true;
+
+	switch (phase_) {
+	case TitleScene::Phase::kFadeIn:
+		fade_->Update();
+
+		if (fade_->IsFinished()) {
+			phase_ = Phase::kMain;
+		}
+		break;
+	case TitleScene::Phase::kMain:
+		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
+			fade_->Start(Fade::Status::FedeOut, 1.0f);
+			phase_ = Phase::kFadeOut;
+		}
+		break;
+	case TitleScene::Phase::kFadeOut:
+		fade_->Update();
+		if (fade_->IsFinished()) {
+			finished_ = true;
+		}
+		break;
 	}
+
+	
 	counter_ += 1.0f / 60.0f;
 	counter_ = std::fmod(counter_, kTimeTitleMove);
 
@@ -58,7 +79,6 @@ void TitleScene::Update() {
 	// アフィン変換～DirectXに転送（プレイヤー座標）
 	WorldTransformUpdate(worldTransformPlayer_);
 
-	fade_->Update();
 }
 
 void TitleScene::Draw() {
