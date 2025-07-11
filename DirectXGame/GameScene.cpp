@@ -46,7 +46,7 @@ void GameScene::Initialize() {
 
 	for (int32_t i = 0; i < 2; ++i) {
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(14 + i * 2, 18);
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(14, 18 - i * 2);
 		newEnemy->Initialize(enemyModel_, &camera_, enemyPosition);
 
 		enemies_.push_back(newEnemy);
@@ -83,6 +83,15 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() {
+
+	//デスフラグの立った敵を削除
+	enemies_.remove_if([](Enemy* enemy) { 
+		if (enemy->IsDead()) {
+			delete enemy;
+			return true;
+		}
+		return false;
+	});
 
 	ChangePhase();
 
@@ -340,6 +349,9 @@ void GameScene::CheckAllCollisions() {
 
 	// 自キャラと敵弾全てのあたり判定
 	for (Enemy* enemy : enemies_) {
+		if (enemy->IsCollisionDisabled()) {
+			continue;
+		}
 		// 敵弾の座標
 		aabb2 = enemy->GetAABB();
 

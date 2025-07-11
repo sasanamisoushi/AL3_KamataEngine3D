@@ -2,12 +2,21 @@
 #include "KamataEngine.h"
 #include "Math.h"
 
+
 using namespace KamataEngine;
 
 class Player;
 
 class Enemy {
 public:
+
+	// 振るまい
+	enum class Behavior {
+		kUnknown = -1,
+		kWalk,   // 通常状態
+		kDefeated, // 攻撃中
+	};
+
 	//初期化
 	void Initialize(Model* model, Camera* camera, const Vector3& position);
 
@@ -31,6 +40,10 @@ public:
 
 	//衝突応答
 	void OnCollision(const Player* player);
+
+	bool IsDead() const { return isDead_; }
+
+	bool IsCollisionDisabled() const { return isCollisionDisabled_; }
 
 private:
 	// ワールド変換データ
@@ -60,4 +73,17 @@ private:
 	//当たり判定サイズ
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
+
+	//デスフラグ
+	bool isDead_ = false;
+
+	Behavior behavior_ = Behavior::kWalk;
+	Behavior behaviorRequest_ = Behavior::kUnknown;
+
+	static inline const float kDefeatedTime = 0.6f;
+	static inline const float kDefeatedMotionAngleStart = 0.0f;
+	static inline const float kDefeatedMotionAngleEnd = -60.0f;
+	float counter_ = 0.0f;
+
+	bool isCollisionDisabled_ = false;
 };

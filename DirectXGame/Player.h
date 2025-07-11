@@ -93,6 +93,8 @@ public:
 	// 現在の攻撃フェーズ
 	AttackPhase attackPhase_ = AttackPhase::kUnknown;
 
+	bool IsAttack() const { return behavior_ == Behavior::kAttack && attackPhase_ == AttackPhase::kAction; }
+
 private:
 	//ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;

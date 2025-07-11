@@ -65,3 +65,6 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
 
 // ワールドトランスフォーム更新
 void WorldTransformUpdate(KamataEngine::WorldTransform& worldTransform);
+
+inline float ToRadians(float degrees) { return degrees * (3.1415f / 180.0f); }
+inline float ToDegrees(float radians) { return radians * (180.0f / 3.1415f); }

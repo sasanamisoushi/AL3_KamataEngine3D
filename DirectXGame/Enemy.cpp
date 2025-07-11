@@ -3,6 +3,7 @@
 #include <cassert>
 #include "WorldtransfomUpdate.h"
 #include "Math.h"
+#include "Player.h"
 
 using namespace KamataEngine;
 
@@ -31,18 +32,54 @@ void Enemy::Initialize(Model* model, Camera* camera, const Vector3& position) {
 }
 
 void Enemy::Update() {
+	// 変更リクエストがあったら
+	if (behaviorRequest_ != Behavior::kUnknown) {
+		// 振るまいを変更する
+		behavior_ = behaviorRequest_;
 
-	// 移動
-	worldTransform_.translation_.x += velocity_.x;
+		// 各振るまいごとの初期化を実行
+		switch (behavior_) {
+		case Behavior::kDefeated:
+		default:
+			counter_ = 0;
+			break;
+		}
 
-	//タイマーを加算
-	walkTimer_ += 1.0f / 60.0f;
+		// 振るまいリクエストをリセット
+		behaviorRequest_ = Behavior::kUnknown;
+	}
 
-	//回転アニメーション
-	worldTransform_.rotation_.x = std::sin(std::numbers::pi_v<float> * 2.0f * walkTimer_ / kWalkMotionTime);
+	
 
-	// 行列更新
-	worldTransformUpdate(worldTransform_);
+	switch (behavior_) {
+	case Enemy::Behavior::kWalk:
+		// 移動
+		worldTransform_.translation_.x += velocity_.x;
+
+		// タイマーを加算
+		walkTimer_ += 1.0f / 60.0f;
+
+		// 回転アニメーション
+		worldTransform_.rotation_.x = std::sin(std::numbers::pi_v<float> * 2.0f * walkTimer_ / kWalkMotionTime);
+
+		// 行列更新
+		worldTransformUpdate(worldTransform_);
+		break;
+	case Enemy::Behavior::kDefeated:
+		counter_ += 1.0f / 60.0f;
+
+		worldTransform_.rotation_.y += 0.3f;
+		worldTransform_.rotation_.x = EaseOut(ToRadians(kDefeatedMotionAngleStart), ToRadians(kDefeatedMotionAngleEnd), counter_ / kDefeatedTime);
+		
+		// 行列更新
+		worldTransformUpdate(worldTransform_);
+
+		if (counter_ >= kDefeatedTime) {
+			isDead_ = true;
+		}
+		break;
+	}
+
 }
 
 void Enemy::Draw() {
@@ -78,5 +115,19 @@ Vector3 Enemy::GetWorldPosition() {
 }
 
 void Enemy::OnCollision(const Player* player) { 
-	(void)player;
+
+	//isDead_ = true;
+	//敵がやられているなら何もしない
+	if (behavior_ == Behavior::kDefeated) {
+		return;
+	}
+
+	//プレイヤーが攻撃中なら敵が死ぬ
+	if (player->IsAttack()) {
+		//敵の振る舞いをデス演出に変更
+		behaviorRequest_ = Behavior::kDefeated;
+
+		isCollisionDisabled_ = true;
+	}
+	//(void)player;
 }

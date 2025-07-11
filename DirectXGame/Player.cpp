@@ -423,6 +423,10 @@ AABB Player::GetAABB() {
 }
 
 void Player::OnCollision(const Enemy* enemy) {
+	if (IsAttack()) {
+		return;
+	}
+
 	(void)enemy;
 
 	isDead_ = true;
@@ -572,6 +576,7 @@ void Player::BehaviorAttackInitialize() {
 	attackPhase_ = AttackPhase::kAnticipation; 
 	velocity_ = {};
 }
+
 
 void Player::Update() {
 
