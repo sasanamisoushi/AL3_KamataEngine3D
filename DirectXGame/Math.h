@@ -3,6 +3,10 @@
 
 using namespace KamataEngine;
 
+//単項演算子オーバーロード
+Vector3 operator+(const Vector3& v);
+Vector3 operator-(const Vector3& v);
+
 Vector3& operator+=(Vector3& lhv, const Vector3& rhv);
 Vector3& operator-=(Vector3& lhv, const Vector3& rhv);
 Vector3& operator*=(Vector3& v, float s);
@@ -37,6 +41,12 @@ float Lerp(float a, float b, float t);
 
 // イーズインアウト
 float EaseInOut(float a, float b, float t);
+
+//イーズアウト
+float EaseOut(float x1, float x2, float t);
+
+//イーズイン
+float EaseIn(float x1, float x2, float t);
 
 // 02_06のスライド24枚目のLerp関数
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);

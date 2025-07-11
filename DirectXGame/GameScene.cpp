@@ -28,6 +28,7 @@ void GameScene::Initialize() {
 
 	// プレイヤーモデル
 	playerModel_ = Model::CreateFromOBJ("player");
+	playerAttackModel_ = Model::CreateFromOBJ("attack_effect");
 
 	// 座標をマップチップ番号で指定
 	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(2, 18);
@@ -38,7 +39,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	// 自キャラの初期化
-	player_->Initilize(playerModel_, &camera_, playerPosition);
+	player_->Initilize(playerModel_,playerAttackModel_, &camera_, playerPosition);
 
 	// 敵のモデル
 	enemyModel_ = Model::CreateFromOBJ("enemy");

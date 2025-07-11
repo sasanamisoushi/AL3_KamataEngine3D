@@ -71,6 +71,7 @@ private:
 
 	// プレイヤーモデル
 	KamataEngine::Model* playerModel_ = nullptr;
+	KamataEngine::Model* playerAttackModel_ = nullptr;
 
 	//ブロックのモデル
 	KamataEngine::Model* blockModel_ = nullptr;

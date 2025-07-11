@@ -33,8 +33,16 @@ public:
 		kAttack, //攻撃中
 	};
 
+	//攻撃フェーズ
+	enum class AttackPhase { 
+		kUnknown = -1,  //無効な状態
+		kAnticipation,  //予備動作
+		kAction,        //前進動作
+		kRecovery,      //余韻動作
+	};
+
 	//初期化
-	void Initilize(Model* model, Camera* camera,  const Vector3& position);
+	void Initilize(Model* model,Model* modelAttack, Camera* camera,  const Vector3& position);
 
 	//更新
 	void Update();
@@ -78,6 +86,12 @@ public:
 
 	//攻撃行動初期化
 	void BehaviorAttackInitialize();
+
+	//攻撃ギミックの経過時間カウンター
+	uint32_t attackParameter_ = 0;
+
+	// 現在の攻撃フェーズ
+	AttackPhase attackPhase_ = AttackPhase::kUnknown;
 
 private:
 	//ワールド変換データ
@@ -176,7 +190,16 @@ private:
 	//デスフラグ
 	bool isDead_ = false;
 
+	//予備動作の時間
+	static inline const uint32_t kAnticipationTime = 8;
+
+	//前進動作の時間
+	static inline const uint32_t kActionTime = 5;
+
+	//余韻動作の時間
+	static inline const uint32_t kRecoveryTime = 10;
 	
-	
+	Model* modelAttack_ = nullptr;
+	KamataEngine::WorldTransform worldTransformAttack_;
 
 };
