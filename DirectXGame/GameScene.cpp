@@ -54,6 +54,11 @@ void GameScene::Initialize() {
 
 	deathParticlesModel_ = Model::CreateFromOBJ("deathParticle");
 
+	//ヒットエフェクト用のモデルの読み込み
+	modelParticle_ = Model::CreateFromOBJ("particle");
+	HitEffect::SetModel(modelParticle_);
+	HitEffect::SetCamera(&camera_);
+
 	// デバックカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
@@ -303,6 +308,8 @@ GameScene::~GameScene() {
 
 	// マップチップの解放
 	delete mapChipField_;
+
+	delete modelParticle_;
 
 	// 敵キャラの解放
 	for (Enemy* enemy : enemies_) {

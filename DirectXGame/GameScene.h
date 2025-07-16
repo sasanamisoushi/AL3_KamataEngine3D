@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "DeathPerticles.h"
 #include "Fade.h"
+#include "HitEffect.h"
 
 
 using namespace KamataEngine;
@@ -79,7 +80,8 @@ private:
 	//可変個配列
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
-	
+	//ヒットエフェクト
+	std::list<HitEffect*> hitEffects_;
 
 	//デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
@@ -106,6 +108,8 @@ private:
 	DeathPerticles* deathParticles_ = nullptr;
 
 	KamataEngine::Model* deathParticlesModel_ = nullptr;
+
+	KamataEngine::Model* modelParticle_ = nullptr;
 
 	//ゲームの現在フェーズ
 	Phase phase_;
