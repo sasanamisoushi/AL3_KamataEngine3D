@@ -47,6 +47,8 @@ const Vector3 operator*(const Vector3& v1, const float f) {
 	return temp *= f;
 }
 
+Vector3 operator/(const Vector3& v, float s) { return Vector3{v.x / s, v.y / s, v.z / s}; }
+
 // 平行移動
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate) {
 	Matrix4x4 result = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, translate.x, translate.y, translate.z, 1};

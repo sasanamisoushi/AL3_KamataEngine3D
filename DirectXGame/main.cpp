@@ -54,10 +54,14 @@ void ChangScene() {
 void UpdateScene() {
 	switch (scene) {
 	case Scene::kTitle:
-		titleScene->Update();
+		if (titleScene) {
+			titleScene->Update();
+		}
 		break;
 	case Scene::kGame:
-		gameScene->Update();
+		if (gameScene) {
+			gameScene->Update();
+		}
 		break;
 	}
 }

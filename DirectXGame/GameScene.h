@@ -51,6 +51,9 @@ public:
 	//デスフラグのgetter
 	bool IsFinished() const { return finished_; }
 
+	//エフェクトを生成
+	void CreateHitEffect(const KamataEngine::Vector3& position);
+
 private:
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
@@ -62,7 +65,7 @@ private:
 	Model* model_ = nullptr;
 
 	//ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	KamataEngine::WorldTransform worldTransform_;
 
 	//カメラ
 	Camera camera_;
@@ -103,6 +106,7 @@ private:
 
 	// 敵モデル
 	KamataEngine::Model* enemyModel_ = nullptr;
+	
 
 	//02_11の15ページ　デスパーティクル
 	DeathPerticles* deathParticles_ = nullptr;

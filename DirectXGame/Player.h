@@ -60,6 +60,8 @@ public:
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	Vector3 GetWorldPosition() const;
+
 	// AABBを取得
 	AABB GetAABB();
 

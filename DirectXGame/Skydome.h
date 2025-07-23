@@ -17,7 +17,7 @@ public:
 
 private:
 		//ワールド変換データ
-	WorldTransform worldTransform_;
+	KamataEngine::WorldTransform worldTransform_;
 
 	//モデル
 	Model* model_ = nullptr;

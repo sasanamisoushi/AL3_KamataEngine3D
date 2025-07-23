@@ -4,6 +4,7 @@
 #include "WorldtransfomUpdate.h"
 #include "Math.h"
 #include "Player.h"
+#include "GameScene.h"
 
 using namespace KamataEngine;
 
@@ -115,8 +116,6 @@ Vector3 Enemy::GetWorldPosition() {
 }
 
 void Enemy::OnCollision(const Player* player) { 
-
-	//isDead_ = true;
 	//敵がやられているなら何もしない
 	if (behavior_ == Behavior::kDefeated) {
 		return;
@@ -124,10 +123,17 @@ void Enemy::OnCollision(const Player* player) {
 
 	//プレイヤーが攻撃中なら敵が死ぬ
 	if (player->IsAttack()) {
+		if (gameScene_) {
+			// 敵と自キャラの中間位置にエフェクトを生成
+			Vector3 effectPos = (GetWorldPosition() + player->GetWorldPosition()) / 2.0f;
+			gameScene_->CreateHitEffect(effectPos);
+		}
+
 		//敵の振る舞いをデス演出に変更
 		behaviorRequest_ = Behavior::kDefeated;
 
 		isCollisionDisabled_ = true;
+
+		
 	}
-	//(void)player;
 }

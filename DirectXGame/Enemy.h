@@ -3,9 +3,11 @@
 #include "Math.h"
 
 
+
 using namespace KamataEngine;
 
 class Player;
+class GameScene;
 
 class Enemy {
 public:
@@ -44,6 +46,9 @@ public:
 	bool IsDead() const { return isDead_; }
 
 	bool IsCollisionDisabled() const { return isCollisionDisabled_; }
+
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
 
 private:
 	// ワールド変換データ
@@ -86,4 +91,6 @@ private:
 	float counter_ = 0.0f;
 
 	bool isCollisionDisabled_ = false;
+
+	GameScene* gameScene_ = nullptr;
 };

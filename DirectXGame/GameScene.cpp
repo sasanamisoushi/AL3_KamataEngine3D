@@ -3,6 +3,10 @@ using namespace KamataEngine;
 
 void GameScene::Initialize() {
 
+	fade_ = new Fade();
+	fade_->Initialize();
+	fade_->Start(Fade::Status::FadeIn, 1.0f);
+
 	// ファイル名を指定してテクスチャを読み込む
 	textureHandle_ = TextureManager::Load("sample.png");
 	// スプライト生成
@@ -89,6 +93,15 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
+	//デスフラグの立ったエフェクトを削除
+	hitEffects_.remove_if([](HitEffect* hitEffect) { 
+		if (hitEffect->IsDead()) {
+			delete hitEffect;
+			return true;
+		}
+		return false;
+	});
+
 	//デスフラグの立った敵を削除
 	enemies_.remove_if([](Enemy* enemy) { 
 		if (enemy->IsDead()) {
@@ -118,8 +131,12 @@ void GameScene::Update() {
 			enemy->Update();
 		}
 
+		for (HitEffect* hitEffect : hitEffects_) {
+			hitEffect->Update();
+		}
+
 #ifdef _DEBUG
-		if (Input::GetInstance()->TriggerKey(DIK_SPACE)) {
+		if (Input::GetInstance()->TriggerKey(DIK_W)) {
 			// フラグをトグル
 			isDebugCameraActive_ = !isDebugCameraActive_;
 		}
@@ -242,6 +259,9 @@ void GameScene::Update() {
 void GameScene::Draw() {
 	DirectXCommon* dxCommon = DirectXCommon::GetInstance();
 
+	// 天球の描画
+	skydome_->Draw();
+
 	// 3Dモデル描画前処理
 	Model::PreDraw(dxCommon->GetCommandList());
 
@@ -269,8 +289,9 @@ void GameScene::Draw() {
 		deathParticles_->Draw();
 	}
 
-	// 天球の描画
-	skydome_->Draw();
+	for (HitEffect* hitEffect : hitEffects_) {
+		hitEffect->Draw();
+	}
 
 	Model::PostDraw();
 
@@ -284,12 +305,18 @@ void GameScene::Draw() {
 GameScene::~GameScene() {
 	// 3Dモデルデータの解放(自機)
 	delete model_;
+	// 敵キャラの解放
+	for (Enemy* enemy : enemies_) {
+		delete enemy;
+	}
+
+
+	for (HitEffect* hitEffect : hitEffects_) {
+		delete hitEffect;
+	}
 
 	// 自キャラの解放
 	delete player_;
-
-	// 3Dモデルデータの解放(ブロック)
-	delete blockModel_;
 
 	// 可変個配列の解放
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -298,6 +325,13 @@ GameScene::~GameScene() {
 		}
 	}
 	worldTransformBlocks_.clear();
+
+	delete playerModel_;
+	delete playerAttackModel_;
+	delete enemyModel_;
+
+	// 3Dモデルデータの解放(ブロック)
+	delete blockModel_;
 
 	// デバックカメラ
 	delete debugCamera_;
@@ -311,13 +345,11 @@ GameScene::~GameScene() {
 
 	delete modelParticle_;
 
-	// 敵キャラの解放
-	for (Enemy* enemy : enemies_) {
-		delete enemy;
-	}
-
+	delete cameraController_;
 	// デスパーティクルの解放
 	delete deathParticles_;
+
+	delete fade_;
 }
 
 void GameScene::GenerateBlocks() {
@@ -389,4 +421,9 @@ void GameScene::ChangePhase() {
 	case Phase::kDeath:
 		break;
 	}
+}
+
+void GameScene::CreateHitEffect(const KamataEngine::Vector3& position) { 
+	HitEffect* newHitEffect = HitEffect::Create(position);
+	hitEffects_.push_back(newHitEffect);
 }
