@@ -124,8 +124,13 @@ void Enemy::OnCollision(const Player* player) {
 	//プレイヤーが攻撃中なら敵が死ぬ
 	if (player->IsAttack()) {
 		if (gameScene_) {
+
+			Vector3 pos = player->GetWorldPosition();
 			// 敵と自キャラの中間位置にエフェクトを生成
-			Vector3 effectPos = (GetWorldPosition() + player->GetWorldPosition()) / 2.0f;
+			Vector3 effectPos;
+			effectPos.x = (GetWorldPosition() + pos).x / 2.0f;
+			effectPos.y = (GetWorldPosition() + pos).y / 2.0f;
+			effectPos.z = (GetWorldPosition() + pos).z / 2.0f;
 			gameScene_->CreateHitEffect(effectPos);
 		}
 

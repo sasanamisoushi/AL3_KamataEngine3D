@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 	player_->SetMapChipField(mapChipField_);
 
 	// 自キャラの初期化
-	player_->Initilize(playerModel_,playerAttackModel_, &camera_, playerPosition);
+	player_->Initilize(playerModel_, playerAttackModel_, &camera_, playerPosition);
 
 	// 敵のモデル
 	enemyModel_ = Model::CreateFromOBJ("enemy");
@@ -53,12 +53,14 @@ void GameScene::Initialize() {
 		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(14, 18 - i * 2);
 		newEnemy->Initialize(enemyModel_, &camera_, enemyPosition);
 
+		newEnemy->SetGameScene(this);
+
 		enemies_.push_back(newEnemy);
 	}
 
 	deathParticlesModel_ = Model::CreateFromOBJ("deathParticle");
 
-	//ヒットエフェクト用のモデルの読み込み
+	// ヒットエフェクト用のモデルの読み込み
 	modelParticle_ = Model::CreateFromOBJ("particle");
 	HitEffect::SetModel(modelParticle_);
 	HitEffect::SetCamera(&camera_);
@@ -93,8 +95,8 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	//デスフラグの立ったエフェクトを削除
-	hitEffects_.remove_if([](HitEffect* hitEffect) { 
+	// デスフラグの立ったエフェクトを削除
+	hitEffects_.remove_if([](HitEffect* hitEffect) {
 		if (hitEffect->IsDead()) {
 			delete hitEffect;
 			return true;
@@ -102,8 +104,8 @@ void GameScene::Update() {
 		return false;
 	});
 
-	//デスフラグの立った敵を削除
-	enemies_.remove_if([](Enemy* enemy) { 
+	// デスフラグの立った敵を削除
+	enemies_.remove_if([](Enemy* enemy) {
 		if (enemy->IsDead()) {
 			delete enemy;
 			return true;
@@ -167,6 +169,10 @@ void GameScene::Update() {
 			}
 		}
 
+		for (HitEffect* hitEffect : hitEffects_) {
+			hitEffect->Update();
+		}
+
 		break;
 
 	case Phase::kPlay:
@@ -182,6 +188,13 @@ void GameScene::Update() {
 
 		// カメラコントローラの更新
 		cameraController_->Update();
+
+#ifdef _DEBUG
+		if (Input::GetInstance()->TriggerKey(DIK_W)) {
+			// フラグをトグル
+			isDebugCameraActive_ = !isDebugCameraActive_;
+		}
+#endif
 
 		if (isDebugCameraActive_) {
 
@@ -211,6 +224,9 @@ void GameScene::Update() {
 
 		// 全ての当たり判定を行う
 		CheckAllCollisions();
+		for (HitEffect* hitEffect : hitEffects_) {
+			hitEffect->Update();
+		}
 		break;
 	case Phase::kDeath:
 		// 天球の更新
@@ -232,7 +248,9 @@ void GameScene::Update() {
 			deathParticles_->Update();
 		}
 
-	
+		for (HitEffect* hitEffect : hitEffects_) {
+			hitEffect->Update();
+		}
 
 		break;
 	case Phase::kFadeOut:
@@ -251,7 +269,11 @@ void GameScene::Update() {
 		for (Enemy* enemy : enemies_) {
 			enemy->Update();
 		}
-		
+
+
+		for (HitEffect* hitEffect : hitEffects_) {
+			hitEffect->Update();
+		}
 		break;
 	}
 }
@@ -309,7 +331,6 @@ GameScene::~GameScene() {
 	for (Enemy* enemy : enemies_) {
 		delete enemy;
 	}
-
 
 	for (HitEffect* hitEffect : hitEffects_) {
 		delete hitEffect;
@@ -423,7 +444,7 @@ void GameScene::ChangePhase() {
 	}
 }
 
-void GameScene::CreateHitEffect(const KamataEngine::Vector3& position) { 
+void GameScene::CreateHitEffect(const KamataEngine::Vector3& position) {
 	HitEffect* newHitEffect = HitEffect::Create(position);
 	hitEffects_.push_back(newHitEffect);
 }
